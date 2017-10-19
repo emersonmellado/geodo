@@ -1,0 +1,28 @@
+{
+  "name": "geodo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emersonmellado/geodo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/emersonmellado/geodo/issues"
+  },
+  "homepage": "https://github.com/emersonmellado/geodo#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "method-override": "^2.3.10",
+    "mongoose": "^4.12.3",
+    "morgan": "^1.9.0",
+    "node-restful": "^0.2.6"
+  }
+}
