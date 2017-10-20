@@ -1,3 +1,12 @@
+'use strict';
+
+/**
+ * App Config
+ * @description Checking NODE_ENV environment
+ * @author Emerson Mellado
+ * @since 18/10/2017
+ */
+
 module.exports = {
     server: {
         host: 'localhost',
