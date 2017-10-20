@@ -2,7 +2,7 @@
 
 /**
  * GeoDo App
- * @description Server for GeoDo app
+ * @description server for GeoDo app
  * @author Emerson Mellado
  * @since 18/10/2017
  */
@@ -10,29 +10,27 @@
 var express = require('express'),
     bodyParser = require('body-parser'),
     methodOverride = require('method-override'),
-    restful = require('node-restful'),
-    mongoose = restful.mongoose,
     config = require('./config'),
     routes = require('./routes'),
-    server = express();
+    app = express();
 
-server.use(bodyParser.urlencoded({'extended':'true'}));
-server.use(bodyParser.json());
-server.use(bodyParser.json({type:'application/vnd.api+json'}));
-server.use(methodOverride());
+var auth = require('./authenticate');
 
-mongoose.connect(config.database.uri, {
-  useMongoClient: true
-});
+process.env.SECRET_KEY = "mykey";
 
-routes.init(server);
+app.use(bodyParser.urlencoded({'extended':'true'}));
+app.use(bodyParser.json());
+app.use(bodyParser.json({type:'application/vnd.api+json'}));
+app.use(methodOverride());
 
-//console.log("routes", routes);
+app.get('/authenticate', auth);
 
-server.start = function(){
-  return server.listen(config.server.port, config.server.host, function(){
-      console.log('Server running on http://' + config.server.host + ':' + config.server.port)
+routes.init(app);
+
+app.start = function(){
+  app.listen(config.server.port, config.server.host, function(){
+        console.log('app running on http://' + config.server.host + ':' + config.server.port)
   });
-}
+};
 
-module.exports = server;
+module.exports = app;

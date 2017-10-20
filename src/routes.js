@@ -8,7 +8,13 @@
  */
 
 var restful = require('node-restful'),
-    mongoose = restful.mongoose;
+    config = require('./config'),
+    mongoose = restful.mongoose,
+    auth = require('./authenticate');
+
+mongoose.connect(config.database.uri, {
+  useMongoClient: true
+});    
 
 var routes = restful.model('todo', mongoose.Schema({
     title: String,
@@ -19,7 +25,11 @@ var routes = restful.model('todo', mongoose.Schema({
       index: '2d'      // create the geospatial index
     }
   }))
-  .methods(['get', 'post', 'put', 'delete']);
+  .methods(['get', 'post', 'put', 'delete'])
+  .before('get', auth.verifyToken)
+  .before('post', auth.verifyToken)
+  .before('delete', auth.verifyToken)
+  .before('put', auth.verifyToken);
 
 routes.init = function(server){
   server.todo = routes;

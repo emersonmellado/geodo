@@ -6,9 +6,9 @@
  * @author Emerson Mellado
  * @since 18/10/2017
  */
-var server = require('./src/server');
+var app = require('./src/server');
 
 /**
  * Starting server
  */
-server.start();
+app.start();
