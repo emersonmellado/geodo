@@ -7,7 +7,6 @@
  */
 
 var restful = require('node-restful'),
-    config = require('../config'),
     auth = require('./authenticate-controller'),
     user = require('../models/user-model'),
     safeCopy = require('../lib/safe-copy.js');

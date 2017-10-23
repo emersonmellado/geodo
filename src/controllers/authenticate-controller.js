@@ -7,16 +7,19 @@
  * @since 19/10/2017
  */
 
-var jwt = require('jsonwebtoken');
+var jwt = require('jsonwebtoken'),
+    config = require('config');
 
 var authenticate = function(req, res) {
     var user = {
         username: "test",
         email: "test@test.com"
     }
-    var token = jwt.sign(user, process.env.SECRET_KEY, {
-        expiresIn: '1d'
-    });
+    var token = jwt.sign(user,
+        config.get('TOKEN.SECRET'), {
+            expiresIn: config.get('TOKEN.OPTIONS.EXPIRES_IN')
+        }
+    );
     res.json({
         success: true,
         token: token
@@ -26,8 +29,7 @@ var authenticate = function(req, res) {
 authenticate.verifyToken = function(req, res, next) {
     var token = req.body.token || req.headers['token'];
     if (token) {
-        jwt.verify(token, process.env.SECRET_KEY, function(err, decode) {
-            //console.log("decode", decode);
+        jwt.verify(token, config.get('TOKEN.SECRET'), function(err, decode) {
             if (err) {
                 res.status(500).send("Invalid Token");
             } else {

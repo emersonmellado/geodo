@@ -10,12 +10,10 @@
 var express = require('express'),
     bodyParser = require('body-parser'),
     methodOverride = require('method-override'),
-    config = require('./config'),
+    config = require('config'),
     db = require('./db'),
     routes = require('./routes'),
     app = express();
-
-process.env.SECRET_KEY = "mykey";
 
 app.start = function() {
 
@@ -28,12 +26,12 @@ app.start = function() {
     }));
     app.use(methodOverride());
 
-    db(config.database.uri).connect();
+    db(config.get('DATABASE.URI')).connect();
 
     routes(app).register();
 
-    app.listen(config.server.port, config.server.host, function() {
-        console.log('app running on http://' + config.server.host + ':' + config.server.port)
+    app.listen(config.get('SERVER.PORT'), config.get('SERVER.HOST'), function() {
+        console.log('app running on http://' + config.get('SERVER.HOST') + ':' + config.get('SERVER.PORT'))
     });
 };
 
