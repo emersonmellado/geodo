@@ -17,7 +17,7 @@ var authenticate = function(req, res) {
     }
     var token = jwt.sign(user,
         config.get('TOKEN.SECRET'), {
-            expiresIn: config.get('TOKEN.OPTIONS.EXPIRES_IN')
+            expiresIn: config.get('TOKEN.EXPIRES_IN')
         }
     );
     res.json({
