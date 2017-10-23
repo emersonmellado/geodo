@@ -11,8 +11,10 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     methodOverride = require('method-override'),
     config = require('./config'),
+    db = require('./db'),
     routes = require('./routes'),
     app = express();
+
 process.env.SECRET_KEY = "mykey";
 
 app.use(bodyParser.urlencoded({
@@ -24,7 +26,9 @@ app.use(bodyParser.json({
 }));
 app.use(methodOverride());
 
-routes(app);
+db(config.database.uri).connect();
+
+routes(app).register();
 
 app.start = function() {
     app.listen(config.server.port, config.server.host, function() {

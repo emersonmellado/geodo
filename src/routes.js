@@ -7,23 +7,23 @@
  * @since 19/10/2017
  */
 
-var restful = require('node-restful'),
-    config = require('./config'),
-    mongoose = restful.mongoose,
-    auth = require('./controllers/authenticate-controller'),
+var auth = require('./controllers/authenticate-controller'),
     todo = require('./controllers/todo-controller'),
     users = require('./controllers/users-controller');
 
-mongoose.connect(config.database.uri, {
-    useMongoClient: true
-});
+var routes = function(app) {
 
-var routes = function(server) {
-    server.todo = todo;
-    server.users = users;
-    server.get('/authenticate', auth);
-    todo.register(server, '/todos');
-    users.register(server, '/users');
+    var _registerRoutes = function(){
+        app.todo = todo;
+        app.users = users;
+        app.get('/authenticate', auth);
+        todo.register(app, '/todos');
+        users.register(app, '/users');
+    }
+
+    return {
+        register: _registerRoutes
+    }
 }
 
 module.exports = routes;
