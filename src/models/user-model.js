@@ -12,7 +12,7 @@ var mongoose = require('mongoose'),
     _ = require('underscore');
 
 var User = new Schema({
-    username: String,
+    name: String,
     password: String,
     email: {
         type: String,
