@@ -13,24 +13,23 @@ var express = require('express'),
     config = require('./config'),
     routes = require('./routes'),
     app = express();
-
-var auth = require('./authenticate');
-
 process.env.SECRET_KEY = "mykey";
 
-app.use(bodyParser.urlencoded({'extended':'true'}));
+app.use(bodyParser.urlencoded({
+    'extended': 'true'
+}));
 app.use(bodyParser.json());
-app.use(bodyParser.json({type:'application/vnd.api+json'}));
+app.use(bodyParser.json({
+    type: 'application/vnd.api+json'
+}));
 app.use(methodOverride());
 
-app.get('/authenticate', auth);
+routes(app);
 
-routes.init(app);
-
-app.start = function(){
-  app.listen(config.server.port, config.server.host, function(){
+app.start = function() {
+    app.listen(config.server.port, config.server.host, function() {
         console.log('app running on http://' + config.server.host + ':' + config.server.port)
-  });
+    });
 };
 
 module.exports = app;

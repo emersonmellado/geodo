@@ -10,49 +10,20 @@
 var restful = require('node-restful'),
     config = require('./config'),
     mongoose = restful.mongoose,
-    auth = require('./authenticate');
+    auth = require('./controllers/authenticate-controller'),
+    todo = require('./controllers/todo-controller'),
+    users = require('./controllers/users-controller');
 
 mongoose.connect(config.database.uri, {
-  useMongoClient: true
-});    
+    useMongoClient: true
+});
 
-var routes = restful.model('todo', mongoose.Schema({
-    title: String,
-    description: String,
-    done: Boolean,
-    location: {
-      type: [Number],  // [<longitude>, <latitude>]
-      index: '2d'      // create the geospatial index
-    }
-  }))
-  .methods(['get', 'post', 'put', 'delete'])
-  .before('get', auth.verifyToken)
-  .before('post', auth.verifyToken)
-  .before('delete', auth.verifyToken)
-  .before('put', auth.verifyToken);
-
-routes.init = function(server){
-  server.todo = routes;
-  routes.register(server, '/todos');
+var routes = function(server) {
+    server.todo = todo;
+    server.users = users;
+    server.get('/authenticate', auth);
+    todo.register(server, '/todos');
+    users.register(server, '/users');
 }
-
-// var maxDistance = req.query.distance || 8; 
-// var coords = [];  
-// coords[0] = req.query.longitude || 0;  
-// coords[1] = req.query.latitude || 0;  
-
-// Todo.find({  
-//     location: {
-//         $near: coords,
-//         $maxDistance: maxDistance
-//     }
-// }).limit(limit).exec(function(err, locations) {
-//     if (err) {
-//         return res.json(500, err);
-//     }
-
-//     res.json(200, locations);
-// });
-
 
 module.exports = routes;
