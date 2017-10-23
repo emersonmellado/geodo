@@ -8,20 +8,14 @@
 
 var restful = require('node-restful'),
     config = require('../config'),
-    mongoose = restful.mongoose,
-    auth = require('./authenticate-controller');
+    auth = require('./authenticate-controller'),
+    user = require('../models/user-model');
 
-var schema = {
-        username: String,
-        password: String,
-        active: Boolean
-    };
-
-var user = restful.model('user', mongoose.Schema(schema))
+var User = restful.model('user', user.schema)
     .methods(['get', 'post', 'put', 'delete'])
     .before('get', auth.verifyToken)
     .before('post', auth.verifyToken)
     .before('delete', auth.verifyToken)
     .before('put', auth.verifyToken);
 
-module.exports = user;
+module.exports = User;

@@ -12,7 +12,7 @@ var restful = require('node-restful'),
     auth = require('./authenticate-controller'),
     todo = require('../models/todo-model');
 
-var Todo = restful.model('todo', todo)
+var Todo = restful.model('todo', todo.schema)
     .methods(['get', 'post', 'put', 'delete'])
     .before('get', auth.verifyToken)
     .before('post', auth.verifyToken)
