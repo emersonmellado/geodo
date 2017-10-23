@@ -17,20 +17,21 @@ var express = require('express'),
 
 process.env.SECRET_KEY = "mykey";
 
-app.use(bodyParser.urlencoded({
-    'extended': 'true'
-}));
-app.use(bodyParser.json());
-app.use(bodyParser.json({
-    type: 'application/vnd.api+json'
-}));
-app.use(methodOverride());
-
-db(config.database.uri).connect();
-
-routes(app).register();
-
 app.start = function() {
+
+    app.use(bodyParser.urlencoded({
+        'extended': 'true'
+    }));
+    app.use(bodyParser.json());
+    app.use(bodyParser.json({
+        type: 'application/vnd.api+json'
+    }));
+    app.use(methodOverride());
+
+    db(config.database.uri).connect();
+
+    routes(app).register();
+
     app.listen(config.server.port, config.server.host, function() {
         console.log('app running on http://' + config.server.host + ':' + config.server.port)
     });

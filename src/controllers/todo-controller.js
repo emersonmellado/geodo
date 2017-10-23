@@ -10,7 +10,8 @@ var restful = require('node-restful'),
     config = require('../config'),
     mongoose = restful.mongoose,
     auth = require('./authenticate-controller'),
-    todo = require('../models/todo-model');
+    todo = require('../models/todo-model'),
+    safeCopy = require('../lib/safe-copy.js');
 
 var Todo = restful.model('todo', todo.schema)
     .methods(['get', 'post', 'put', 'delete'])
@@ -18,7 +19,8 @@ var Todo = restful.model('todo', todo.schema)
     .before('post', auth.verifyToken)
     .before('delete', auth.verifyToken)
     .before('put', auth.verifyToken)
-    .route('near', near);
+    .route('near', near)
+    .after('get', safeCopy);
 
 function near(req, res, next) {
 	//console.log("mongoose", mongoose);
