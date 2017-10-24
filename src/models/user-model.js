@@ -9,7 +9,8 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     uniqueValidator = require('mongoose-unique-validator'),
-    _ = require('underscore');
+    _ = require('underscore'),
+    bcrypt = require('bcryptjs');
 
 var User = new Schema({
     name: String,

@@ -8,22 +8,32 @@
  */
 
 var jwt = require('jsonwebtoken'),
-    config = require('config');
+    config = require('config'),
+    User = require('../models/user-model');
 
-var authenticate = function(req, res) {
-    var user = {
-        username: "test",
-        email: "test@test.com"
-    }
-    var token = jwt.sign(user,
-        config.get('TOKEN.SECRET'), {
-            expiresIn: config.get('TOKEN.EXPIRES_IN')
+var authenticate = function(req, res, next) {
+    var auth = req.body;
+    User.findOne({
+        email: auth.email
+    }).then(function(user) {
+        if (!user) {
+            res.status(401).send("Authentication failed");
         }
-    );
-    res.json({
-        success: true,
-        token: token
-    })
+        if (!user.validatePassword(auth.password)) {
+            res.status(403).send("Authentication failed");
+        }
+
+        var token = jwt.sign(user.safeCopy(),
+            config.get('TOKEN.SECRET'), {
+                expiresIn: config.get('TOKEN.EXPIRES_IN')
+            }
+        );
+
+        res.json({
+            success: true,
+            token: token
+        });
+    });
 }
 
 authenticate.verifyToken = function(req, res, next) {

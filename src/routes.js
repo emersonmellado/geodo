@@ -7,7 +7,7 @@
  * @since 19/10/2017
  */
 
-var auth = require('./controllers/authenticate-controller'),
+var authenticate = require('./controllers/authenticate-controller'),
     todo = require('./controllers/todo-controller'),
     users = require('./controllers/users-controller');
 
@@ -16,7 +16,7 @@ var routes = function(app) {
     var _registerRoutes = function(){
         app.todo = todo;
         app.users = users;
-        app.get('/authenticate', auth);
+        app.post('/authenticate', authenticate);
         todo.register(app, '/todos');
         users.register(app, '/users');
     }
