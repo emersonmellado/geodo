@@ -11,9 +11,10 @@ var _ = require('underscore'),
 
 var hash = function(req, res, next) {
     var user = req.body || {};
-    console.log("req.body", req.body);
+    if (!user.password){
+    	res.status(500).send("Invalid data");
+    }
     req.body.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(8), null);
-    console.log("req.body", req.body);
     next();
 }
 

@@ -13,10 +13,13 @@ var jwt = require('jsonwebtoken'),
 
 var authenticate = function(req, res, next) {
     var auth = req.body;
+    if (!auth) {
+        res.status(401).send("Authentication failed");
+    }    
     User.findOne({
         email: auth.email
     }).then(function(user) {
-        if (!user) {
+        if (!user || !auth.password) {
             res.status(401).send("Authentication failed");
         }
         if (!user.validatePassword(auth.password)) {
