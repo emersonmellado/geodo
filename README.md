@@ -13,9 +13,9 @@ This project uses nodejs for the api and a big number of other components:
 * jsonwebtoken
 * config
 
->> go to *package.json* to check more details
+> go to *package.json* to check more details
 
-# Basic locations for localhost validations
+# Basic locations for localhost validation
 
 Since Vancouver downtown is 49.282729, -123.120738 we need to query whatever is near my current location passing the radius in meters that we want to be considered
 
@@ -24,7 +24,7 @@ http://localhost:3000/todos/near?longitude=49.275729&latitude=-123.120738&distan
 English bay:
 ```json
 {
-	"title": "English bay",
+    "title": "English bay",
     "description": "2017",
     "done": false,
     "location": [
@@ -37,7 +37,7 @@ English bay:
 Kits:
 ```json
 {
-	"title": "Kitsilano",
+    "title": "Kitsilano",
     "description": "2017",
     "done": false,
     "location": [
@@ -50,7 +50,7 @@ Kits:
 Yaletown:
 ```json
 {
-	"title": "Yaletown",
+    "title": "Yaletown",
     "description": "2017",
     "done": false,
     "location": [
@@ -63,7 +63,7 @@ Yaletown:
 Gastown:
 ```json
 {
-	"title": "Gastown",
+    "title": "Gastown",
     "description": "2017",
     "done": false,
     "location": [
