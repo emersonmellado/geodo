@@ -13,7 +13,7 @@ var mongoose = require('mongoose'),
 var Todo = new Schema({
     title: String,
     description: String,
-    creator: {
+    user: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
@@ -28,5 +28,15 @@ var Todo = new Schema({
 }, {
     timestamps: true
 });
+
+// /**
+//  * Returns a "safe copy" of the todo object. It will remove properties that
+//  * should not be exposed (like __v).
+//  *
+//  * @returns {Todo}
+//  */
+// Todo.methods.safeCopy = function() {
+//     return _.omit(this.toObject(), ['__v']);
+// };
 
 module.exports = mongoose.model('Todo', Todo);
