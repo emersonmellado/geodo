@@ -14,13 +14,25 @@ var restful = require('node-restful'),
     safeCopy = require('../lib/safe-copy.js');
 
 var Todo = restful.model('todo', todo.schema)
-    .methods(['get', 'post', 'put', 'delete'])
+    .methods(['post', 'put', 'delete'])
     .before('get', auth.verifyToken)
     .before('post', auth.verifyToken)
     .before('delete', auth.verifyToken)
     .before('put', auth.verifyToken)
     .route('near', near)
+    .route('get', filterbyAuth)
     .after('get', safeCopy);
+
+function filterbyAuth(req, res, next) {
+    Todo.find({user:req.userId})
+    .exec(function(err, todos) {
+        if (err) {
+            return res.json(500, err);
+        }
+
+        res.json(200, todos);
+    });;
+}
 
 function near(req, res, next) {
 	var limit = req.query.limit || 10;
