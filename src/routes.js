@@ -13,17 +13,13 @@ var authenticate = require('./controllers/authenticate-controller'),
 
 var routes = function(app) {
 
-    var _registerRoutes = function(){
+    return (function(){
         app.todo = todo;
         app.users = users;
         app.post('/authenticate', authenticate);
         todo.register(app, '/todos');
         users.register(app, '/users');
-    }
-
-    return {
-        register: _registerRoutes
-    }
+    })();
 }
 
 module.exports = routes;

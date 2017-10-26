@@ -11,14 +11,14 @@ var mongoose = require('mongoose')
 
 var db = function(uri, opts) {
 
-    var _connectToDb = function(){
+    var _connect = function(){
         mongoose.connect(uri, opts || {
             useMongoClient: true
         });
     }
 
     return {
-        connect: _connectToDb
+        connect: _connect
     }
 }
 

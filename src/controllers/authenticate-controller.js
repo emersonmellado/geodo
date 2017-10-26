@@ -35,7 +35,7 @@ var authenticate = function(req, res, next) {
                 }
             );
 
-            res({
+            res.send({
                 success: true,
                 token: token,
                 user: user.safeCopy()

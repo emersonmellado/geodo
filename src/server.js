@@ -28,7 +28,7 @@ app.start = function() {
 
     db(config.get('DATABASE.URI')).connect();
 
-    routes(app).register();
+    routes(app);
 
     app.listen(config.get('SERVER.PORT'), config.get('SERVER.HOST'), function() {
         console.log('app running on http://' + config.get('SERVER.HOST') + ':' + config.get('SERVER.PORT'))
