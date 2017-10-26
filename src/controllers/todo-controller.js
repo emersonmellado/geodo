@@ -23,9 +23,6 @@ var Todo = restful.model('todo', todo.schema)
     .after('get', safeCopy);
 
 function near(req, res, next) {
-	//console.log("mongoose", mongoose);
-	//console.log("Todo", Todo);
-	//console.log("req.query", req.query);
 	var limit = req.query.limit || 10;
     var maxDistance = req.query.distance || 8;
 	
@@ -35,8 +32,6 @@ function near(req, res, next) {
     var coords = [];
     coords[0] = req.query.longitude || 0;
     coords[1] = req.query.latitude || 0;
-
-    console.log("getting data from: ", coords, maxDistance);
 
     Todo.find({
         location: {
